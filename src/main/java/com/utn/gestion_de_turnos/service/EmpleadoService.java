@@ -71,4 +71,20 @@ public class EmpleadoService {
         System.out.println("Contraseña incorrecta para el email: " + email);
         return null;
     }
+
+//camiar password empleado por primera vez
+    public void cambiarPasswordPrimerLogin(Long idEmpleado, String nuevaPassword) {
+        Empleado empleado = empleadoRepository.findById(idEmpleado)
+                .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+
+        if (!empleado.isPrimerLogin()) {
+            throw new RuntimeException("La contraseña ya fue cambiada anteriormente");
+        }
+
+        String passwordEncriptada = passwordEncoder.encode(nuevaPassword);
+        empleado.setContrasena(passwordEncriptada);
+        empleado.setPrimerLogin(false);
+
+        empleadoRepository.save(empleado);
+    }
 }

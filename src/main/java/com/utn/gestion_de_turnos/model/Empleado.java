@@ -16,4 +16,7 @@ public class Empleado extends Usuario {
     @Column(nullable = false)
     private String legajo;
 
+    @Column(name = "primer_login")
+    private boolean primerLogin = true;
+
 }

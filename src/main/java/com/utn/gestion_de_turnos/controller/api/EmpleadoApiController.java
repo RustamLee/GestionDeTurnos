@@ -1,7 +1,9 @@
 package com.utn.gestion_de_turnos.controller.api;
+import com.utn.gestion_de_turnos.dto.CambioPasswordDTO;
 import com.utn.gestion_de_turnos.model.Empleado;
 import com.utn.gestion_de_turnos.service.EmpleadoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +36,16 @@ public class EmpleadoApiController {
     @DeleteMapping("/{id}")
     public void deleteEmpleado(@PathVariable Long id) {
         empleadoService.deleteById(id);
+    }
+
+// llamar al service para cambiar password de empleado
+    @PutMapping("/empleados/{id}/cambiar-password")
+    public ResponseEntity<?> cambiarPassword(
+            @PathVariable Long id,
+            @RequestBody CambioPasswordDTO dto) {
+
+        empleadoService.cambiarPasswordPrimerLogin(id, dto.getNuevaPassword());
+        return ResponseEntity.ok("Contraseña cambiada correctamente.");
     }
 
 }
